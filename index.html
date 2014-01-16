@@ -1,0 +1,189 @@
+<html>
+    <head>
+        <title>Simple HyperCities Browser</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="js/app/map/style.css">
+		<link rel="stylesheet" type="text/css" href="slider/css/slider.css">
+
+        <script src="https://www.google.com/jsapi?key=ABQIAAAAtHf2Vbojx_f9l2digk62nRQrFBHKr9qV1AY9zGQXZj2IXqamtBTXjHzZ8RX1a7noo8OD71G1CLxKFg" type="text/javascript"></script>
+        <!--<script data-main="js/app/" src="js/libs/require.js-2.1.4/require.min.js"></script>-->
+        <script src="js/libs/jquery-1.9.0/jquery-1.9.1.js"></script>
+        <script src="js/libs/underscore.js-1.3.1-amdjs/underscore-min.js"></script>
+        <script src="js/libs/twitter-bootstrap-2.2.2/bootstrap.min.js"></script>
+        <!--<script src="js/libs/backbone.js-0.9.2-amdjs/backbone-min.js"></script>-->
+        <script src="js/libs/backbone.js-0.9.2-amdjs/backbone-1.0.js"></script>
+        
+
+        <script src="js/libs/OpenLayers/OpenLayers.js" type="text/javascript"></script>
+        <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places" type="text/javascript"></script>
+
+		<script src="slider/js/bootstrap-slider.js"></script>
+
+        <!-- Application-specific scripts -->
+        <script src="js/app/main.js"> </script>
+        
+		<!-- Map stuff -->
+        <script src="js/app/map/LayerBank.js"></script>
+		<script src="js/app/map/LayerList.js"></script>
+		<script src="js/app/map/LayerSwitcher.js"></script>
+        <script src="js/app/map/Map.js"> </script>
+        <script src="js/app/map/LayerView.js"></script>
+		<script src="js/app/map/Layer.js"></script>
+
+        <!-- Models -->
+        <script src="js/app/models/Narrative.js"> </script>
+        <script src="js/app/models/NarrativeList.js"></script>
+        <script src="js/app/models/NarrativeStore.js"></script>        
+        <script src="js/app/models/Scene.js"></script>
+        
+        <!-- Views -->
+        <script src="js/app/views/AdvanceButton.js"> </script>
+        <script src="js/app/views/Breadcrumb.js"></script>
+        <script src="js/app/views/Scene.js"> </script>
+        <script src="js/app/views/Narrative.js"> </script>
+        <script src="js/app/views/NarrativeInline.js"> </script>
+        <!--<script src="js/views/Text.js"> </script>-->
+        <script src="js/app/views/Title.js"> </script>
+        <script src="js/app/views/AppView.js"></script>
+
+        <script>
+            // $( SimpleHyperCities.init);
+            var app;
+            $(function () {
+                var collectionId = 40380;
+                var query = {};
+                window.location.search.substr(1).split("&").map(function ($item) {
+                    var pieces = $item.split("=");
+                    query[pieces[0]] = pieces[1];
+                });
+                if (typeof query.id != "undefined") {
+                    collectionId = query.id;
+                }
+                app = new SimpleHyperCities.Views.AppView();
+				if (collectionId) {
+					app.load(collectionId);
+				} else {
+                    app.showSearch();
+                }
+                // $("#layer-switcher").accordion();
+            });
+        </script>
+        
+    </head>
+    <body>
+        <ul id="breadcrumbs">
+            
+        </ul>
+        <script type="text/template" id="breadcrumb-template">
+            <li class="breadcrumb"><%= name %></li>
+        </script>
+        <div id="title">Collection Title</div>
+        <div id="menu" class="dropdown pull-right">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">+</a>
+            <ul class="dropdown-menu " role="menu" aria-labelledby="dLabel">
+                <li role="presentation" class="new-collection">
+                    <a role="menuitem">New Collection</a>
+                </li>
+                <li role="presentation" class="edit-collection">
+                    <a role="menuitem">Edit Collection</a>
+                </li>
+            </ul>
+        </div>
+        <div id="content-wrapper">
+            <div id="left-panel" class="accordion">
+                <div id="narrative-description" class="accordion-group">
+                    <div class="accordion-heading">
+                        <a id="narrative-collapse-control" class="accordion-toggle" 
+                           data-toggle="collapse" data-parent="#left-panel" 
+                           href="#narrative-collapse" >Narrative</a>
+                    </div>
+                    <!--div id="previous-control" class="advance-control">
+                        <div id="prev-object-control">
+                            <span class="previous-control-button advance-control-button">&lt; </span>
+                            <div class="advance-control-title">Previous Object</div>
+                        </div>                
+                    </div-->
+                    <div id="narrative-collapse" class="accordion-body collapse in">
+                        <div id="narrative" class="accordion-inner">
+                            
+                        </div>
+                        <script type="text/template" id="scene-template">
+                            <div class="object-wrapper scene">
+                                <div class="object-title"><%= title %></div>
+                                <div class="object-date"><%= date %></div>
+                                <div class="content"><%= description %></div>
+                                <span class="previous-control-button advance-control-button"><i class="icon-arrow-up"></i></span>
+                                <span class="next-control-button advance-control-button"><i class="icon-arrow-down"></i></span>
+                            </div>
+                        </script>
+                        <script type="text/template" id="narrative-template">
+                            <div class="object-wrapper narrative">
+                                <div class="object-title"><%= title %></div>
+                                <div class="object-date"><%= date %></div>
+                                <div class="content"><%= description %></div>
+                                <div class="enter-collection">Enter <i class="icon-arrow-right"></i></div>
+                            </div>
+                        </script>
+                    </div>
+                    <!--div id="next-control" class="advance-control">
+                        <div class="advance-control-title">Next Object</div>
+                        <span class="next-control-button advance-control-button">&gt;</span>
+                    </div-->
+                </div>
+                <div id="layer-switcher" class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" 
+                           data-parent="#left-panel" 
+                           href="#layer-switcher-controls">Layers</a>
+                    </div>
+                    <div id="layer-switcher-controls" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            <div id="layer-switcher-search-box-container">
+                                <input type="text" id="layer-switcher-search-box" name="layer-switcher-search-box"/>
+                            </div>
+                            <div id="layer-switcher-layer-list">
+                                <script type="text/template" id="layer-template">
+                                    <div class="layer-switcher-layer">
+                                        <span class="layer-title"><%= title %></span>
+                                        <br/>
+                                        <input type="text" class="opacity-slider slider" value="" 
+                                            data-slider-min="0" data-slider-max="100" 
+                                            data-slider-step="1" data-slider-value="100" />
+                                        <span class="remove-button"><i class="icon-remove-sign"></i></span>
+                                    </div>
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="map"></div>
+        </div>
+        <script>
+            /*
+            requirejs.config({
+                shim: {
+                    'backbone' : {
+                        deps: ['underscore', 'jquery'],
+                        exports: 'Backbone'
+                    },
+                    'underscore' : {
+                        exports: "_"
+                    },
+                    'OpenLayers' : {
+                        exports: "OpenLayers"
+                    }
+                },
+
+                baseUrl: ".",
+                "paths" : {
+                    "app" : "js"
+                }
+            });
+
+            requirejs(["app/main"]);
+            */
+        </script>
+    </body>
+</html>

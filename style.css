@@ -1,0 +1,128 @@
+body {
+    font-family: Arial;
+}
+
+.olImageLoadError { 
+    /* when OL encounters a 404, don't display the pink image */
+    display: none !important;
+} 
+
+.olPopup p { margin:0px; font-size: .9em;}
+.olPopup h2 { font-size:1.2em; }
+
+#menu {
+    float: right;
+    right: 10px;
+}
+
+#left-panel {
+    /*float: left;*/
+    position: absolute;
+    width: 25%;
+    height: 80%;
+    /*height:95%;*/
+}
+
+#breadcrumbs > li {
+    display:inline;
+    cursor: pointer;
+    list-style-type:square;
+    padding: 5px;
+    margin: 5px;
+    background: black;
+    color:white;
+}
+
+#narrative {
+    padding: 12px;
+    overflow-y:auto;
+    height:95%;
+}
+
+
+#map {
+    /*float: right;*/
+    position: absolute;
+    left: 25%;
+    width: 75%;
+    height: 95%;
+}
+
+/** 
+ * Avoid conflict between OpenLayers and Bootstrap CSS.  
+ * This is what makes appear too narrow and not touch.
+ */
+#map img {
+    max-width: none;
+}
+
+.advance-control {
+    background: lightblue;
+    
+    padding: 12px;
+    cursor:pointer;
+    margin: 4px;
+    color:white;
+    font-weight: bold;
+}
+
+.advance-control-button {
+    font-weight:bold;
+    display: none;
+}
+
+.previous-control-button {
+    float: left;
+    padding-right: 4px;
+    margin-right: 4px;
+}
+
+.next-control-button {
+    float: right;    
+    padding:4px;
+}
+
+.advance-control-text {
+    float: start;
+    font-family:sans-serif;
+    display:inline;
+    color:white;
+    font-weight:bold;
+}
+
+#title {
+    text-align: center;
+    font-size: 25;
+    font-weight: bold;
+    height:7%;
+}
+
+.object-wrapper {
+    padding: 5px;
+}
+
+.object-title {
+    font-weight: bold;
+}
+
+.scene-active {
+    
+}
+
+.object-date {
+    font-size: small;
+}
+
+#content {
+    overflow:auto;
+}
+
+.enter-collection {
+    font-weight:bold;
+    text-align: right;
+    cursor:pointer;
+}
+
+.hide {
+    display: none;
+}
